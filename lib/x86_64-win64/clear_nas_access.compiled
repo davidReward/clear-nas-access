@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\fpcupdeluxe\fpc\bin\x86_64-win64\fpc.exe" Date="1417573068"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -gw2 -godwarfsets -gl -WG -l -vewnhibq -FiC:\Users\David\Code\clear-nas-access\lib\x86_64-win64 -FuC:\fpcupdeluxe\lazarus\lcl\units\x86_64-win64\win32 -FuC:\fpcupdeluxe\lazarus\lcl\units\x86_64-win64 -FuC:\fpcupdeluxe\lazarus\components\freetype\lib\x86_64-win64 -FuC:\fpcupdeluxe\lazarus\components\lazutils\lib\x86_64-win64 -FuC:\fpcupdeluxe\lazarus\packager\units\x86_64-win64 -FuC:\Users\David\Code\clear-nas-access\ -FUC:\Users\David\Code\clear-nas-access\lib\x86_64-win64\ -FEC:\Users\David\Code\clear-nas-access\ -oC:\Users\David\Code\clear-nas-access\clear_nas_access.exe -dLCL -dLCLwin32 clear_nas_access.lpr"/>
+</CONFIG>

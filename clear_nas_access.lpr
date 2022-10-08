@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, clear_nas_accessU1
+  Forms, clear_nas_access_u1
   { you can add units after this };
 
 {$R *.res}

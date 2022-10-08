@@ -1,4 +1,4 @@
-unit clear_nas_accessU1;
+unit clear_nas_access_u1;
 
 {$mode objfpc}{$H+}
 
@@ -8,11 +8,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs;
 
 type
-
-  { TForm1 }
-
   TForm1 = class(TForm)
-    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -25,13 +21,6 @@ var
 implementation
 
 {$R *.lfm}
-
-{ TForm1 }
-
-procedure TForm1.FormShow(Sender: TObject);
-begin
-  ShowMessage('Bla');
-end;
 
 end.
 
