@@ -13,13 +13,12 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormShow(Sender: TObject);
   private
+    plinkStarted : Boolean;
     SEInfo: TShellExecuteInfo;
-    function PlinkStarten : Integer;
+    function PlinkStarten : Boolean;
   public
 
   end;
@@ -33,17 +32,19 @@ implementation
 
 { TForm1 }
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  PlinkStarten;
+  if plinkStarted then begin;
+    TerminateProcess(SEInfo.hProcess, 1);
+  end;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
+procedure TForm1.FormShow(Sender: TObject);
 begin
-  TerminateProcess(SEInfo.hProcess, 1);
+  plinkStarted:= PlinkStarten;
 end;
 
-function TForm1.PlinkStarten: Integer;
+function TForm1.PlinkStarten: Boolean;
 var
   ExitCode: DWORD;
   ExecuteFile, ParamString, StartInString: string;
@@ -69,9 +70,9 @@ name of the working directory.
 If ommited, the current directory is used.
 }
  lpDirectory := PChar('.') ;
- nShow := SW_SHOWNORMAL;
+ nShow := SW_HIDE;
  end;
- ShellExecuteExA(@SEInfo)
+ Result:= ShellExecuteExA(@SEInfo);
  {if ShellExecuteExA(@SEInfo) then begin
  repeat
  Application.ProcessMessages;
