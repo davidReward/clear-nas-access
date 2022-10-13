@@ -71,6 +71,12 @@ procedure TForm1.Button1Click(Sender: TObject);
 begin
   if TrustHost then begin
     plinkStarted:= PlinkStarten;
+    if plinkStarted then begin
+      ShowMessage('Verbunden!');
+    end
+    else begin
+      MessageDlg('Fehler beim Verbinden', 'Verbindung konnte nicht hergestellt werden!', mtError, [mbOk], 0);
+    end;
   end;
 end;
 

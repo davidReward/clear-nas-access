@@ -61,7 +61,7 @@ begin
   end;
 
   if FileExists(TempDir + exe_plink_filename) then begin
-    DeleteFile(PChar(TempDir + script_plink_filename));
+    DeleteFile(PChar(TempDir + exe_plink_filename));
   end;
 
 end;
