@@ -13,9 +13,10 @@ type
   { TForm1 }
 
   TRaspiData = record
-    ip,
+    host_ip,
     username,
-    pw : String;
+    pw,
+    nas_ip: String;
   end;
 
   TForm1 = class(TForm)
@@ -38,6 +39,8 @@ type
 const
   exe_plink_filename = 'plink_ct.exe';
   script_plink_filename = 'plink_script.bat';
+  tunnel_port = 9999;
+  nas_web_interface_port = 80;
 
 var
   Form1: TForm1;
@@ -73,6 +76,7 @@ begin
     plinkStarted:= PlinkStarten;
     if plinkStarted then begin
       ShowMessage('Verbunden!');
+      ShellExecute(0, 'open', PChar('http://127.0.0.1:' + IntToStr(tunnel_port)), nil, nil, SW_SHOWNORMAL);
     end
     else begin
       MessageDlg('Fehler beim Verbinden', 'Verbindung konnte nicht hergestellt werden!', mtError, [mbOk], 0);
@@ -85,6 +89,15 @@ end;
 procedure TForm1.FormShow(Sender: TObject);
 begin
   TempDir:= IncludeTrailingBackslash(GetTempDir(False));
+
+  with RaspiData do begin
+    host_ip:= '192.168.2.43';
+    username:= 'pi';
+    pw:= 'kaas1234';
+    nas_ip:= '192.168.42.2';
+  end;
+
+
   plinkStarted:= False;
 
   if not FileExists(TempDir + exe_plink_filename) then begin
@@ -111,7 +124,8 @@ begin
     fMask := SEE_MASK_NOCLOSEPROCESS;
     Wnd := Application.Handle;
     lpFile := PChar(ExecuteFile) ;
-    lpParameters := PChar('192.168.2.43 pi kaas1234') ;
+    lpParameters := PChar(RaspiData.host_ip + ' ' + RaspiData.username + ' ' +
+                 RaspiData.pw) ;
     lpDirectory := PChar(TempDir) ;
     nShow := SW_Hide;
   end;
@@ -142,7 +156,8 @@ begin
     fMask := SEE_MASK_NOCLOSEPROCESS;
     Wnd := Application.Handle;
     lpFile := PChar(ExecuteFile) ;
-    lpParameters := PChar('-L 9999:192.168.42.2:80 -N pi@192.168.2.43 -pw kaas1234') ;
+    lpParameters := PChar('-L ' + IntToStr(tunnel_port) + ':' + RaspiData.nas_ip + ':' + IntToStr(nas_web_interface_port) + ' -N ' +
+                 RaspiData.username +'@' + RaspiData.host_ip +' -pw ' + RaspiData.pw) ;
     lpDirectory := PChar(TempDir) ;
     nShow := SW_HIDE;
   end;
