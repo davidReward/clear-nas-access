@@ -12,6 +12,12 @@ type
 
   { TForm1 }
 
+  TRaspiData = record
+    ip,
+    username,
+    pw : String;
+  end;
+
   TForm1 = class(TForm)
     Button1: TButton;
     procedure Button1Click(Sender: TObject);
@@ -21,6 +27,7 @@ type
     plinkStarted : Boolean;
     SEInfo: TShellExecuteInfo;
     TempDir : String;
+    RaspiData : TRaspiData;
     function TrustHost : Boolean;
     function PlinkStarten : Boolean;
     procedure EntpackeRessource(NameRessource, DestFilename : String);
@@ -48,6 +55,15 @@ begin
   if plinkStarted then begin;
     TerminateProcess(SEInfo.hProcess, 1);
   end;
+
+  if FileExists(TempDir + script_plink_filename) then begin
+    DeleteFile(PChar(TempDir + script_plink_filename));
+  end;
+
+  if FileExists(TempDir + exe_plink_filename) then begin
+    DeleteFile(PChar(TempDir + exe_plink_filename));
+  end;
+
 end;
 
 
@@ -72,6 +88,7 @@ begin
   if not FileExists(TempDir + script_plink_filename) then begin
      EntpackeRessource('PLINK_SCRIPT', script_plink_filename);
   end;
+
 
 end;
 
