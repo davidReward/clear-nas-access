@@ -139,7 +139,7 @@ function TForm1.TrustHost: Boolean;
  ExecuteFile, ParamString, StartInString: string;}
 begin
   ShellExecute(0, 'open', PChar(TempDir + script_plink_filename),
-                  PChar(RaspiData.host_ip + ' ' + RaspiData.username + ' ' +
+                  PChar(TempDir + ' ' + RaspiData.host_ip + ' ' + RaspiData.username + ' ' +
                   RaspiData.pw),
     nil, SW_SHOWDEFAULT);
   {ExecuteFile:= TempDir + script_plink_filename;

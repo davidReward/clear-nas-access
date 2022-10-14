@@ -1,4 +1,5 @@
 echo off 
-echo y | plink.exe -ssh -pw %3 %2@%1 "exit"
+cd %1
+echo y | plink_ct.exe -ssh -pw %4 %3@%2 "exit"
 echo Done register host
 pause
