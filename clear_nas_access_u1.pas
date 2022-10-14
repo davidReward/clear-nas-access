@@ -20,6 +20,7 @@ type
 
   TForm1 = class(TForm)
     bConnect: TButton;
+    bTrust: TButton;
     eIP: TEdit;
     eUser: TEdit;
     ePassword: TEdit;
@@ -27,6 +28,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     procedure bConnectClick(Sender: TObject);
+    procedure bTrustClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
   private
@@ -39,6 +41,7 @@ type
     procedure EntpackeRessource(NameRessource, DestFilename : String);
     procedure ReadIni;
     procedure WriteIni;
+    procedure SetValues;
   public
 
   end;
@@ -82,20 +85,23 @@ end;
 
 procedure TForm1.bConnectClick(Sender: TObject);
 begin
-  RaspiData.host_ip:= eIP.TExt;
-  RaspiData.username:= eUser.Text;
-  RaspiData.pw:= ePassword.Text;
+  SetValues;
 
-  if TrustHost then begin
-    plinkStarted:= PlinkStarten;
-    if plinkStarted then begin
-      //ShowMessage('Verbunden!');
-      ShellExecute(0, 'open', PChar('http://127.0.0.1:' + IntToStr(tunnel_port)), nil, nil, SW_SHOWNORMAL);
-    end
-    else begin
-      //MessageDlg('Fehler beim Verbinden', 'Verbindung konnte nicht hergestellt werden!', mtError, [mbOk], 0);
-    end;
+  plinkStarted:= PlinkStarten;
+  if plinkStarted then begin
+    //ShowMessage('Verbunden!');
+    ShellExecute(0, 'open', PChar('http://127.0.0.1:' + IntToStr(tunnel_port)), nil, nil, SW_SHOWNORMAL);
+  end
+  else begin
+    //MessageDlg('Fehler beim Verbinden', 'Verbindung konnte nicht hergestellt werden!', mtError, [mbOk], 0);
   end;
+
+end;
+
+procedure TForm1.bTrustClick(Sender: TObject);
+begin
+  SetValues;
+  TrustHost;
 end;
 
 
@@ -127,12 +133,16 @@ begin
 end;
 
 function TForm1.TrustHost: Boolean;
-var
+{var
  SEInfoTrust: TShellExecuteInfo;
  ExitCode: DWORD;
- ExecuteFile, ParamString, StartInString: string;
+ ExecuteFile, ParamString, StartInString: string;}
 begin
-  ExecuteFile:= TempDir + script_plink_filename;
+  ShellExecute(0, 'open', PChar(TempDir + script_plink_filename),
+                  PChar(RaspiData.host_ip + ' ' + RaspiData.username + ' ' +
+                  RaspiData.pw),
+    nil, SW_SHOWDEFAULT);
+  {ExecuteFile:= TempDir + script_plink_filename;
   FillChar(SEInfoTrust, SizeOf(SEInfoTrust), 0) ;
   SEInfoTrust.cbSize := SizeOf(TShellExecuteInfo) ;
   with SEInfoTrust do begin
@@ -142,7 +152,7 @@ begin
     lpParameters := PChar(RaspiData.host_ip + ' ' + RaspiData.username + ' ' +
                  RaspiData.pw) ;
     lpDirectory := PChar(TempDir) ;
-    nShow := SW_Hide;
+    nShow := SW_HIDE;
   end;
   if ShellExecuteExA(@SEInfoTrust) then begin
      repeat
@@ -155,7 +165,7 @@ begin
   end
   else begin
     Result := False;
-  end;
+  end; }
 end;
 
 function TForm1.PlinkStarten: Boolean;
@@ -208,8 +218,8 @@ var
 begin
   IniFile := TIniFile.Create(ChangeFileExt(ExtractFileName(Paramstr(0)), '.ini'));
   try
-    RaspiData.host_ip := IniFile.ReadString('raspi', 'ip','');
-    RaspiData.username := IniFile.ReadString('raspi', 'username','');
+    RaspiData.host_ip := Trim(IniFile.ReadString('raspi', 'ip',''));
+    RaspiData.username := Trim(IniFile.ReadString('raspi', 'username',''));
   finally
     IniFile.Free;
   end;
@@ -221,11 +231,19 @@ var
 begin
   IniFile := TIniFile.Create(ChangeFileExt(ExtractFileName(Paramstr(0)), '.ini'));
   try
-     IniFile.WriteString('raspi', 'ip', RaspiData.host_ip);
-     IniFile.WriteString('raspi', 'username', RaspiData.username);
+     IniFile.WriteString('raspi', 'ip', Trim(RaspiData.host_ip));
+     IniFile.WriteString('raspi', 'username', Trim(RaspiData.username));
   finally
     IniFile.Free;
   end;
+end;
+
+procedure TForm1.SetValues;
+begin
+  RaspiData.host_ip:= Trim(eIP.TExt);
+  RaspiData.username:= Trim(eUser.Text);
+  RaspiData.pw:= Trim(ePassword.Text);
+
 end;
 
 end.

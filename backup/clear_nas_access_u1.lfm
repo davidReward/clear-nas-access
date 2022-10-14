@@ -12,9 +12,9 @@ object Form1: TForm1
   object bConnect: TButton
     Left = 112
     Height = 25
-    Top = 96
+    Top = 128
     Width = 80
-    Caption = 'Verbinden'
+    Caption = 'Connect'
     OnClick = bConnectClick
     TabOrder = 3
   end
@@ -26,11 +26,11 @@ object Form1: TForm1
     TabOrder = 0
   end
   object Label1: TLabel
-    Left = 44
+    Left = 47
     Height = 15
     Top = 24
-    Width = 56
-    Caption = 'IP-Adresse'
+    Width = 53
+    Caption = 'IP address'
   end
   object eUser: TEdit
     Left = 112
@@ -49,11 +49,11 @@ object Form1: TForm1
     TabOrder = 2
   end
   object Label2: TLabel
-    Left = 24
+    Left = 47
     Height = 15
     Top = 48
-    Width = 76
-    Caption = 'Benutzername'
+    Width = 53
+    Caption = 'Username'
   end
   object Label3: TLabel
     Left = 50
@@ -61,5 +61,14 @@ object Form1: TForm1
     Top = 72
     Width = 50
     Caption = 'Password'
+  end
+  object bTrust: TButton
+    Left = 112
+    Height = 25
+    Top = 96
+    Width = 80
+    Caption = 'Register Host'
+    OnClick = bTrustClick
+    TabOrder = 4
   end
 end
