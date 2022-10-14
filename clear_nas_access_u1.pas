@@ -243,7 +243,6 @@ begin
   RaspiData.host_ip:= Trim(eIP.TExt);
   RaspiData.username:= Trim(eUser.Text);
   RaspiData.pw:= Trim(ePassword.Text);
-
 end;
 
 end.
